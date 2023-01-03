@@ -7,7 +7,7 @@ import numpy as np
 import io, os
 import argparse
 from torch.utils.data import Dataset, DataLoader
-from SwinLarge import SpatialSoftmax3D, SwinLarge
+from SwinLarge import SpatialSoftmax3D, SwinUnet
 from threeD_dataLoader import sample_data_diffTask_2
 import pickle
 import torch
