@@ -30,13 +30,13 @@ parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight deca
 parser.add_argument('--window', type=int, default=10, help='window around the time step')
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
 parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss') # Find min and max link
-parser.add_argument('--epoch', type=int, default=1, help='The time steps you want to subsample the dataset to,500')
+parser.add_argument('--epoch', type=int, default=100, help='The time steps you want to subsample the dataset to,500')
 parser.add_argument('--numwork', type=int, default=12, help='The number of workers')
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
-parser.add_argument('--exp_image', type=bool, default=False, help='Set true if export predictions as images')
-parser.add_argument('--exp_video', type=bool, default=False, help='Set true if export predictions as video')
+parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
+parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
 parser.add_argument('--exp_L2', type=bool, default=True, help='Set true if export L2 distance')
 parser.add_argument('--train_continue', type=bool, default=False, help='Set true if eval time')
@@ -213,7 +213,6 @@ def run_training_process_on_given_gpu(rank, num_gpus):
 
     for epoch in range(args.epoch):
         print(f">>>Epoch {epoch}<<<") 
-        startTime = time.time()
         train_loss = []
         val_loss = []
         print ('Begin training')
@@ -246,7 +245,7 @@ def run_training_process_on_given_gpu(rank, num_gpus):
             optimizer.step()
             train_loss.append(loss.data.item())
             
-            if i_batch % 3374 ==0 and i_batch!=0: # Cứ 50 batch lại evaluate 1 lần
+            if i_batch % 1124 ==0 and i_batch!=0: # Cứ 50 batch lại evaluate 1 lần
 
                 print("[%d/%d] LR: %.6f, Loss: %.6f, Heatmap_loss: %.6f, Keypoint_loss: %.6f, "
                       "k_max_gt: %.6f, k_max_pred: %.6f, k_min_gt: %.6f, k_min_pred: %.6f, "
@@ -348,8 +347,6 @@ def run_training_process_on_given_gpu(rank, num_gpus):
         print("Save losses at: "+ args.exp_dir + 'log/' + args.exp + '_' + str(args.lr) + '_' + str(args.window) + '.p')
 
         print("Train Loss: %.6f, Valid Loss: %.6f" % (avg_train_loss, avg_val_loss))
-        endTime = time.time()
-        print("Time of an epoch: ", (endTime - startTime))
         
     model.eval()
     avg_val_loss = []
