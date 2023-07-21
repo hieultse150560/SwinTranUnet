@@ -46,18 +46,20 @@ def get_objects(response):
 
 def checkLength(string_to_dump):
     string_to_dump = (string_to_dump.split("\n"))[:-1] 
-    print("Generate: ", len(string_to_dump))
+    print("Check length: ", len(string_to_dump))
     return len(string_to_dump)
 
+k = 10000
 string_to_dump = ""
+i = 1
 while True:
-    i = 1
-    if checkLength(string_to_dump) > 10000:
+    if checkLength(string_to_dump) > k:
         with open(f"./data/batch_{i}.pkl", "wb") as f:
-            string = pickle.dump("\n".join(string_to_dump.split("\n")[:10000]))
-        string_to_dump = "\n".join(string_to_dump[10000:])
+            string = pickle.dump("\n".join(string_to_dump.split("\n")[:k]), f)
+        string_to_dump = "\n".join(string_to_dump.split("\n")[k:])
         print(f"Writing to ./data/batch_{i}.pkl")
         i += 1
+        print("Left: ", checkLength(string_to_dump))
     try:
         samples = ["A desk contains a pen and an apple", "A table contains a set of keys and a knife", "A vase lies on the table", "A silver spoon and a wristwatch rest on a wooden nightstand", "A pair of scissors and a ruler rest on a wooden desk next to an open notebook."]
         samples_text = "\n".join(samples)
@@ -71,17 +73,17 @@ Example:```\n{samples_text}\n```
 The objects that can be grasped should be small objects such as pencils, watches, spoons, knives, scissors, keys, spoons,... The description should contain 1-3 objects.
 Some common containers are corner tables, cabinets, shelves, desks,...
 
-The description MUST BE DIVERSE AND NOT THE SAME AS THE GENERATED ONES. You can use synonyms of objects to increase diversity. For example, mug can be replaced with cup, bottle...
+The description MUST BE DIVERSE AND NOT THE SAME AS THE GENERATED ONES.
 """
         history = []
-        for _ in range(10):
+        for _ in range(9):
           response, history = get_completion(prompt, history)
           print(response, get_objects(response))
           string_to_dump += response + " " + get_objects(response) + "\n"
           # plot(response)
-        time.sleep(30)
+        time.sleep(15)
     except Exception as e:
         print(e)
-        time.sleep(30)
-    string_to_dump = (string_to_dump.split("\n"))[:-1] 
-    print("Generated: ", len(string_to_dump.split("\n")))
+        time.sleep(15)
+    new = (string_to_dump.split("\n"))[:-1] 
+    print("Generated: ", len(new), "\n")
