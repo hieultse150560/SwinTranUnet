@@ -50,7 +50,7 @@ def checkLength(string_to_dump):
 
 k = 10000
 string_to_dump = ""
-i = 3
+i = 4
 while True:
     if checkLength(string_to_dump) > k:
         with open(f"./data/batch_{i}.pkl", "wb") as f:
@@ -63,16 +63,11 @@ while True:
         samples = ["A desk contains a pen and an apple", "A table contains a set of keys and a knife", "A vase lies on the table", "A silver spoon and a wristwatch rest on a wooden nightstand", "A pair of scissors and a ruler rest on a wooden desk next to an open notebook."]
         samples_text = "\n".join(samples)
         prompt = f"""
-You'll need to create a simple description of an image used for training a robot to grasp.
+Your task is to create a simple description of a image used for training a robot to grasp.
 
-The description has the chance of 80% to generate in the form of 'A <container> contains <object 1>, <object 2>,...'.
-The description must be in one sentence and based on the following samples.
-Example:```\n{samples_text}\n```
+The description must be in one sentence. The description should contain from 1-3 objects. You must use all small objects that can be grasped with the same probability, except the objects in previously generated descriptions. 
 
-The objects that can be grasped should be small objects such as pencils, watches, spoons, knives, scissors, keys, spoons,... The description should contain 1-3 objects.
-Some common containers are corner tables, cabinets, shelves, desks,...
-
-The description MUST BE DIVERSE AND NOT THE SAME AS THE GENERATED ONES.
+The description MUST BE DIVERSE AND NOT THE SAME STRUCTURE AS THE GENERATED ONES. You can also use synonyms of objects to increase diversity, for example mug, cup, bottle can be considered synonymous. 
 """
         history = []
         for _ in range(9):
