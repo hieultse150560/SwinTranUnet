@@ -63,11 +63,13 @@ while True:
         samples = ["A desk contains a pen and an apple", "A table contains a set of keys and a knife", "A vase lies on the table", "A silver spoon and a wristwatch rest on a wooden nightstand", "A pair of scissors and a ruler rest on a wooden desk next to an open notebook."]
         samples_text = "\n".join(samples)
         prompt = f"""
-Your task is to create a simple description of a image used for training a robot to grasp.
+Your task is to create a simple description of an image used for training a robot to grasp.
 
-The description must be in one sentence. The description should contain from 1-3 objects. You must use all small objects that can be grasped with the same probability, except the objects in previously generated descriptions. 
+The description must be in one sentence. The description should contain 1-3 objects. You must use all small objects that can be grasped with the same probability, except the objects in previously generated descriptions. 
 
-The description MUST BE DIVERSE AND NOT THE SAME STRUCTURE AS THE GENERATED ONES. You can also use synonyms of objects to increase diversity, for example mug, cup, bottle can be considered synonymous. 
+The description MUST BE DIVERSE AND NOT THE SAME STRUCTURE AS THE GENERATED ONES. You can also use synonyms of objects to increase diversity, for example, mug, cup, and bottle can be considered synonymous. 
+
+You must return only the description, nothing else. 
 """
         history = []
         for _ in range(9):
