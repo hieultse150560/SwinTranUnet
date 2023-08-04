@@ -50,7 +50,7 @@ def checkLength(string_to_dump):
 
 k = 10000
 string_to_dump = ""
-i = 8
+i = 9
 while True:
     if checkLength(string_to_dump) > k:
         with open(f"./data/batch_{i}.pkl", "wb") as f:
