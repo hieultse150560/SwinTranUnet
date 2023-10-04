@@ -6,12 +6,12 @@ from tqdm import tqdm
 
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_VERSION"] = "2023-03-15-preview"
-os.environ["OPENAI_API_BASE"] = "https://aic-ivychat.openai.azure.com/"
-os.environ["OPENAI_API_KEY"] = "77ef8d32367c4a11bf4f71d7e2d5726b"
+os.environ["OPENAI_API_BASE"] = "https://airesidency-grasp-anything.openai.azure.com/"
+os.environ["OPENAI_API_KEY"] = "2da25ecd69a040bf874bb6921b412606
 openai.api_type = "azure"
-openai.api_base = "https://aic-ivychat.openai.azure.com/"
+openai.api_base = "https://airesidency-grasp-anything.openai.azure.com/"
 openai.api_version = "2023-03-15-preview"
-openai.api_key = "77ef8d32367c4a11bf4f71d7e2d5726b"
+openai.api_key = "2da25ecd69a040bf874bb6921b412606"
 
 def get_completion(prompt, history):
     history.append({"role": "user", "content": prompt})
@@ -50,7 +50,7 @@ def checkLength(string_to_dump):
 
 k = 10000
 string_to_dump = ""
-i = 9
+i = 48
 while True:
     if checkLength(string_to_dump) > k:
         with open(f"./data/batch_{i}.pkl", "wb") as f:
