@@ -7,7 +7,7 @@ from tqdm import tqdm
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_VERSION"] = "2023-03-15-preview"
 os.environ["OPENAI_API_BASE"] = "https://airesidency-grasp-anything.openai.azure.com/"
-os.environ["OPENAI_API_KEY"] = "2da25ecd69a040bf874bb6921b412606
+os.environ["OPENAI_API_KEY"] = "2da25ecd69a040bf874bb6921b412606"
 openai.api_type = "azure"
 openai.api_base = "https://airesidency-grasp-anything.openai.azure.com/"
 openai.api_version = "2023-03-15-preview"
@@ -15,7 +15,7 @@ openai.api_key = "2da25ecd69a040bf874bb6921b412606"
 
 def get_completion(prompt, history):
     history.append({"role": "user", "content": prompt})
-    response = openai.ChatCompletion.create(engine = "IvyChat_demo", messages=history, temperature = 1.0, max_tokens = 4097, top_p = 0.5, frequency_penalty = 1.0, presence_penalty = 1.0, stop = None)
+    response = openai.ChatCompletion.create(engine = "gpt-35-turbo", messages=history, temperature = 1.0, top_p = 0.5, frequency_penalty = 1.0, presence_penalty = 1.0, stop = None)
     message_response = response["choices"][0]["message"]["content"]
     history.append({"role": "system", "content": message_response})
     return message_response, history
@@ -72,7 +72,7 @@ The description MUST BE DIVERSE AND NOT THE SAME STRUCTURE AS THE GENERATED ONES
 You must return only the description, nothing else. 
 """
         history = []
-        for _ in range(9):
+        for _ in range(15):
           response, history = get_completion(prompt, history)
           print(response, get_objects(response))
           string_to_dump += response + " " + get_objects(response) + "\n"
