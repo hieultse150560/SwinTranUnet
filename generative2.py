@@ -3,7 +3,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
 
 tokenizer = AutoTokenizer.from_pretrained("upstage/llama-30b-instruct")
 model = AutoModelForCausalLM.from_pretrained(
-    "upstage/llama-30b-instruct",
+     "upstage/Llama-2-70b-instruct-v2",
     device_map="auto",
     torch_dtype=torch.float16,
     load_in_8bit=True,
