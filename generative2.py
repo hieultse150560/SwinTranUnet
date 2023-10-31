@@ -1,25 +1,25 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import transformers
 import torch
+from transformers import LlamaTokenizer, LlamaForCausalLM
 
-model_id = "codellama/CodeLlama-7b-hf"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(
-    model_id,
-    torch_dtype=torch.float16
-).to("cuda")
+## v2 models
+model_path = 'openlm-research/open_llama_3b_v2'
+# model_path = 'openlm-research/open_llama_7b_v2'
 
-prompt = '''def remove_non_ascii(s: str) -> str:
-    """ <FILL_ME>
-    return result
-'''
+## v1 models
+# model_path = 'openlm-research/open_llama_3b'
+# model_path = 'openlm-research/open_llama_7b'
+# model_path = 'openlm-research/open_llama_13b'
 
-input_ids = tokenizer(prompt, return_tensors="pt")["input_ids"].to("cuda")
-output = model.generate(
-    input_ids,
-    max_new_tokens=200,
+tokenizer = LlamaTokenizer.from_pretrained(model_path)
+model = LlamaForCausalLM.from_pretrained(
+    model_path, torch_dtype=torch.float16, device_map='cuda:0',
 )
-output = output[0].to("cpu")
+model.to("cuda:0")
 
-filling = tokenizer.decode(output[input_ids.shape[1]:], skip_special_tokens=True)
-print(prompt.replace("<FILL_ME>", filling))
+prompt = 'Q: What is the largest animal?\nA:'
+input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+
+generation_output = model.generate(
+    input_ids=input_ids, max_new_tokens=32
+)
+print(tokenizer.decode(generation_output[0]))
