@@ -6,7 +6,7 @@ command = """./main -m ./models/13B/ggml-model-q4_0.bin --n-gpu-layers 15000 -p 
 result = subprocess.run(command, shell=True, capture_output=True, text=True)
 output = result.stdout
 
-description = re.search(r"\A(.*?)(?:\.|\])$", text)
+description = re.search(r"\A(.*?)(?:\.|\])$", output)
 
 if description:
     print(description.group(1))
