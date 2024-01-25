@@ -17,4 +17,4 @@ objects = re.findall(r"Response:\s+(.*?)(?:\.|\]|$)", output, flags=re.IGNORECAS
 
 print(output)
 print(description[0])
-print(objects)
+print(objects[0])
